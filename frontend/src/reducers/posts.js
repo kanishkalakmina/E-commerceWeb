@@ -8,6 +8,8 @@ export default(posts = [],action) =>{
             return action.payload
         case 'FETCH_BY_SEARCH':
             return action.payload
+            case 'FETCH_BY_TAGS':
+                return action.payload
         case 'CREATE': 
             return [...posts, action.payload]
         

@@ -23,6 +23,18 @@ const getPostBySearch = async (req,res) => {
         res.status(404).json({message:error.message})
     }
 }
+const getPostTags = async (req,res) => {
+    const {searchQuery} = req.query
+    try {
+        const tags = new RegExp(searchQuery,'i')
+
+        const tposts = await PostMessage.find({$or: [{tags:{$in: tags.split(',')}}]})
+
+        res.json({data: tposts})
+    } catch (error) {
+        res.status(404).json({message:error.message})
+    }
+}
  const createPost = async (req,res)=> {
     
     const newPost = new PostMessage(req.body)
@@ -56,4 +68,4 @@ const deletePost = async(req,res)=>{
         res.json({message:'Post Deleted'})
 }
 
-module.exports = {getPostBySearch,getPost,createPost,updatePost,deletePost}
+module.exports = {getPostBySearch,getPostTags,getPost,createPost,updatePost,deletePost}

@@ -1,9 +1,11 @@
 const express = require('express')
-const {getPostBySearch, getPost, createPost, updatePost, deletePost} = require('../controllers/controllPost')
+const {getPostBySearch,getPostTags, getPost, createPost, updatePost, deletePost} = require('../controllers/controllPost')
 
 const router = express.Router();
 
 router.get('/search',getPostBySearch)
+
+router.get('/searchtag',getPostTags)
 
 router.get('/',getPost)
 

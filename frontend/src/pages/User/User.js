@@ -1,8 +1,8 @@
 import Posts from './posts'
 import '../Admin/admin.css'
-import React, {  useState } from 'react'
+import React, {useEffect,  useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { getPostBySearch, getPosts } from '../../actions/posts'
+import { getPostBySearch, getPosts,getPostsByTags } from '../../actions/posts'
 import {useNavigate, useLocation} from 'react-router-dom'
 
 function useQuery(){
@@ -15,17 +15,21 @@ const User = () => {
   const query = useQuery()
   const searchQuery = query.get('searchQuery')
   const [search, setSearch] = useState('')
+  const [tags, setTags] = useState([])
   const navigate = useNavigate()
 
   const searchPost = () =>{
     if(search.trim()){
       dispatch(getPostBySearch({search}))
-      navigate(`/posts/search?searchQuery=${search || 'none'}`)
-      
-      
+  
     }
     else{
-      navigate('/posts')
+        dispatch(getPosts())
+    }
+  }
+  const FilterPost = () =>{
+    if(search.trim() || tags){
+      dispatch(getPostsByTags({tags: tags.join(',')}))
     }
   }
 
@@ -42,13 +46,13 @@ const User = () => {
                 type="search" 
                 id="simple-search" 
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                placeholder="Search Products, Tags"
+                placeholder="Search Products"
                 onChange={(e)=> setSearch(e.target.value)}
                 value={search}
                 />
     </div>
     <button 
-              type="submit" 
+              type="button" 
               class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={searchPost}
               >
@@ -58,11 +62,10 @@ const User = () => {
 </form>
 <div className='lg:px-[500px]  sm:px-[100px] '>
 <ul class=" hidden text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow sm:flex dark:divide-gray-700 dark:text-gray-400 bg-white">
-    <button onClick={searchPost}>
+    <button>
    <li class="w-full">
         <div class="inline-block p-3 w-full text-gray-900 bg-gray-100 rounded-l-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:bg-gray-700 dark:text-white" 
-        onChange={(e)=> setSearch(e.target.value)}
-        value="s"
+        onChange={()=>{}}
         >
         S
         </div>
